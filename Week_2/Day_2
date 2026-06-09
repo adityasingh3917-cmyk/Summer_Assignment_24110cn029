@@ -1,0 +1,92 @@
+1.LONGEST SUBSTRING WITHOUT REPEATING CHARACTERS:
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int n=s.length();
+        int maxLength=0;
+        unordered_set<char> charSet;
+        int left=0;
+
+        for(int right=0 ; right < n; right++){
+            if(charSet.count(s[right])==0){
+                charSet.insert(s[right]);
+                maxLength = max(maxLength , right -left +1);
+            }else {
+                while (charSet.count(s[right])){
+                    charSet.erase(s[left]);
+                    left++;
+                }
+                charSet.insert(s[right]);
+            }
+        }
+        return maxLength;
+
+        
+    }
+};
+2.PERMUTATION IN STRING:
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        unordered_map< char,int >mp;
+        for(auto it : s1){
+            mp[it]++;
+        }
+        int count=mp.size();
+        int i=0,j=0;
+        int k=s1.size();
+        while(j < s2.size()){
+            if(mp.find(s2[j]) != mp.end()){
+                mp[s2[j]]--;
+                if(mp[s2[j]]==0){
+                    count--;
+                }
+            }
+            if(j-i+1 < k){
+                j++;
+            }
+            else if(j-i+1==k){
+                if(count==0){
+                    return true;
+                }
+                if(mp.find(s2[i])!=mp.end()){
+                    mp[s2[i]]++;
+                    if(mp[s2[i]]==1){
+                        count++;
+                    }
+                }
+                i++;
+                j++;
+            }
+        }
+        return false;
+        
+    }
+};
+3.FIND ALL ANAGRAMS IN A STRING:
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        vector<int>ans;
+        if(s.length() < p.length()){
+            return ans;
+        }
+        vector<int>map(26,0);
+        for(int i=0;i<p.length();i++){
+            map[p[i] - 'a']++;
+            map[s[i] - 'a']--;
+        }
+        map[s[p.length() -1] - 'a']++;
+        int left=0;
+        for(int i= p.length() -1;i<s.length();i++){
+            map[s[i]- 'a']--;
+            if(count(map.begin(),map.end(),0)==26){
+                ans.push_back(left);
+            }
+            map[s[left] - 'a']++;
+            left++;
+        }
+        return ans;
+        
+    }
+};
