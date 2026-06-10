@@ -1,0 +1,50 @@
+1.IMPLEMENT STRSTR():
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        if (needle.empty()) return 0;
+
+        int n=haystack.size();
+        int m=needle.size();
+
+        for(int i=0;i<=n-m;i++){
+            int j=0;
+
+            while(j < m && haystack[i+j] == needle[j]){
+                j++;
+            }
+            if (j == m) return i;
+        }
+        return -1;
+        
+    }
+};
+2.IS SUBSQUENCE:
+class Solution {
+public:
+    bool isSubsequence(string s, string t) {
+        int i=0,j=0;
+        while(i<s.size() && j < t.size()){
+            if(s[i] == t[j]){
+                i++;
+            }
+            j++;
+        }
+        return i== s.size();
+        
+    }
+};
+3.REPEATED SUBSTRING PATTERN:
+class Solution {
+public:
+    bool repeatedSubstringPattern(string s) {
+        int n=s.size();
+        for(int i=n/2;i>=1;i--){
+            if(n%i==0){
+                if(s.substr(0,n-i)==s.substr(i)) return true;
+            }
+        }
+        return false;
+        
+    }
+};
