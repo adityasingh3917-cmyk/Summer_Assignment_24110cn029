@@ -1,0 +1,78 @@
+1.DAILY TEMPERATURES:
+class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+        stack<int> st;
+        vector<int> res(temperatures.size(),0);
+
+        
+
+        for(int i =0;i < temperatures.size(); i++) {
+            while (!st.empty() && temperatures[i] > temperatures[st.top()]){
+                int idx =st.top();st.pop();
+                res[idx] = i -idx;
+            }
+            st.push(i);
+        }
+        return res;
+        
+    }
+};
+2.EVALUATE REVERSE POLISH NOTATION:
+class Solution {
+    long resolves(int a, int b, char Operator){
+        if(Operator =='+') return a+b;
+        else if(Operator =='-') return a-b;
+        else if(Operator =='*') return (long)a*b;
+        return a/b;
+    }
+public:
+    int evalRPN(vector<string>& tokens) {
+        stack<long> stack;
+        int n = tokens.size();
+        for(int i = 0; i < n ; i++){
+            if(tokens[i].size() == 1 and tokens[i][0] < 48){
+                long integer2 = stack.top();
+                stack.pop();
+                long integer1 = stack.top();
+                stack.pop();
+
+                string Operator = tokens[i];
+                long resolvedAns = resolves(integer1 ,integer2 , Operator[0]);
+                stack.push(resolvedAns);
+            }else
+                stack.push(stol(tokens[i]));
+        }
+        return stack.top();
+        
+    }
+};
+3.LARGEST RECTANGLE IN HISTOGRAM:
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        stack<int> st;
+        int maxArea =0;
+        int n= heights.size();
+
+        for (int i=0; i <= n; i++) {
+            int curr = (i == n) ? 0 : heights[i];
+
+            while(!st.empty() && curr < heights[st.top()]){
+                int height = heights[st.top()];
+                st.pop();
+
+                int width;
+                if (st.empty()){
+                    width =i;
+                }else{
+                    width =i -st.top() - 1;
+                }
+                maxArea = max(maxArea,height * width);
+            }
+            st.push(i);
+        }
+        return maxArea;
+        
+    }
+};
